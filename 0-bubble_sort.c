@@ -22,6 +22,7 @@ void bubble_sort(int *array, size_t size)
 				print_array(array, size);
 			}
 		}
+		n -= 1;
 	} while (swapped);
 }
 

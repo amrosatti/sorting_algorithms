@@ -4,6 +4,7 @@
 
 
 /** Header Files **/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,6 +13,7 @@
 
 
 /** Data Structures **/
+
 /**
  * struct listint_s - Doubly linked list node
  *
@@ -30,9 +32,14 @@ typedef struct listint_s
 
 /** Functions Prototypes **/
 
+void print_list(const listint_t *);
 void print_array(const int *, size_t);
+listint_t *create_dlist(const int *, size_t);
+void free_list(listint_t *);
 void swap(int *, int *);
 void bubble_sort(int *, size_t);
+void insertion_sort_list(listint_t **);
+void insert_sort(listint_t **, listint_t *);
 
 
 
