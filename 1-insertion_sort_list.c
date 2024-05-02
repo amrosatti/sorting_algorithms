@@ -43,9 +43,9 @@ void insertion_sort_list(listint_t **list)
 				current->prev = insert_point;
 				current->next->prev = current;
 			}
+			print_list(*list);
 		}
 
-		print_list(*list);
 		current = next;
 	}
 }
