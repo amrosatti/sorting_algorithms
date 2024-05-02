@@ -8,57 +8,64 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *sorted_list = NULL, *tmp, *current;
+	listint_t *next, *current, *insert_point;
+	int sorted;
 
+	if (!list)
+		return;
 	if (!(*list) || !(*list)->next)
 		return;
 
-	current = *list;
+	current = (*list)->next;
 	while (current)
 	{
-		tmp = current->next;
-		current->prev = current->next = NULL;
+		next = current->next;
+		insert_point = current->prev;
 
-		insert_sort(&sorted_list, current);
-		print_list(sorted_list);
+		while (insert_point && insert_point->n > current->n)
+			insert_point = insert_point->prev;
 
-		current = tmp;
+		sorted = is_sorted(insert_point == current->prev, current);
+
+		if (!sorted)
+		{
+			if (!insert_point)
+			{
+				current->prev = NULL;
+				current->next = *list;
+				(*list)->prev = current;
+				*list = current;
+			}
+			else
+			{
+				current->next = insert_point->next;
+				insert_point->next = current;
+				current->prev = insert_point;
+				current->next->prev = current;
+			}
+		}
+
+		print_list(*list);
+		current = next;
 	}
-
-	*list = sorted_list;
 }
 
 /**
- * insert_sort - Inserts the node to the currect position of the sorted portion
+ * is_sorted - Check if positions are already sorted and switch links
  *
- * @head: Head of the sorted list
- * @node: Node to be inserted
+ * @isit: True if sorted, 0 otherwise
+ * @node: Node to orphan
+ *
+ * Return: 1 if sorted, 0 otherwise
  */
-void insert_sort(listint_t **head, listint_t *node)
+int is_sorted(int isit, listint_t *node)
 {
-	listint_t *cursor;
+	if (isit)
+		return (1);
 
-	if (!(*head))
-		*head = node;
-	else if ((*head)->n >= node->n)
-	{
-		node->next = *head;
-		node->next->prev = node;
-		*head = node;
-	}
-	else
-	{
-		cursor = *head;
+	node->prev->next = node->next;
+	if (node->next)
+		node->next->prev = node->prev;
 
-		while (cursor->next && cursor->next->n < node->n)
-			cursor = cursor->next;
-
-		node->next = cursor->next;
-
-		if (cursor->next)
-			node->next->prev = node;
-
-		cursor->next = node;
-		node->prev = cursor;
-	}
+	return (0);
 }
