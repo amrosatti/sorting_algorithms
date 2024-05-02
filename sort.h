@@ -39,6 +39,7 @@ void free_list(listint_t *);
 void swap(int *, int *);
 void bubble_sort(int *, size_t);
 void insertion_sort_list(listint_t **);
+void selection_sort(int *, size_t);
 
 
 
